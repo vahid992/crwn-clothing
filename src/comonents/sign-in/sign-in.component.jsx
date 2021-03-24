@@ -1,24 +1,32 @@
 import "./sign-in.styles.scss";
 import { Component } from "react";
 import FormInput from "../form-input/form-input.component";
-import { singInWithGoogle } from "../../firebase/firebase.utils";
+import { auth,singInWithGoogle } from "../../firebase/firebase.utils";
 import CustomButton from "../custom-button/custom-button.component";
 
 class SignIn extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
-      password: "",
+      password: ""
     };
   }
 
-  handelSubmit = (event) => {
+  handleSubmit = async event => {
     event.perventDefault();
-    this.setState({ email: "", password: "" });
+    const{email,password} = this.state;
+
+    try{
+      await auth.signInWithEmailAndPassword(email,password);
+      this.setState({ email: "", password: "" });
+    }catch(error){
+      console.log(error);
+    }
+    
   };
 
-  handelChange = (event) => {
+  handleChange = (event) => {
     const { value, name } = event.target;
     this.setState({ [name]: value });
   };
@@ -28,10 +36,10 @@ class SignIn extends Component {
       <div className="sign-in">
         <h2>I already have an account</h2>
         <span>Sign in with your email and password</span>
-        <form onSubmit={this.handelSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <FormInput
             label="email"
-            handelChange={this.handelChange}
+            handleChange={this.handleChange}
             name="email"
             type="email"
             value={this.state.email}
@@ -39,7 +47,7 @@ class SignIn extends Component {
           />
           <FormInput
             label="password"
-            handelChange={this.handelChange}
+            handleChange={this.handleChange}
             name="password"
             type="password"
             value={this.state.password}
