@@ -1,25 +1,38 @@
-import  ActionCartTypes  from './cart.types';
-import { addItemToCart } from './cart.utils';
-const INITIAL_STATE ={
+import ActionCartTypes from './cart.types';
+import {
+    addItemToCart,
+    removeItemFromCart
+} from './cart.utils';
+const INITIAL_STATE = {
     hidden: true,
-    cartItems:[]
+    cartItems: []
 };
 
-const cartReducer = (state=INITIAL_STATE,action) =>{
+const cartReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case ActionCartTypes.TOGGLE_CART_HIDDEN:
-            return{
+            return {
                 ...state,
                 hidden: !state.hidden
             };
         case ActionCartTypes.ADD_ITEM:
-            return{
+            return {
                 ...state,
-                cartItems:addItemToCart(state.cartItems,action.payload)
+                cartItems: addItemToCart(state.cartItems, action.payload)
+            };
+        case ActionCartTypes.REMOVE_ITEM:
+            return {
+                ...state,
+                cartItems: removeItemFromCart(state.cartItems, action.payload)
+            };
+        case ActionCartTypes.CLEAR_ITEM_FROM_CART:
+            return {
+                ...state,
+                cartItems: state.cartItems.filter(cartItem => cartItem.id !== action.payload.id)
             };
         default:
             return state;
     }
 };
 
-export default cartReducer; 
+export default cartReducer;
