@@ -22,5 +22,5 @@ const mapStateToProps = (state,ownProps) =>({
     collection: selectCollection(ownProps.match.params.categoryId)(state)
 });
 
-export default connect(mapStateToProps)(CategoryPage);  
+export default connect(mapStateToProps)(CategoryPage) ;  
 
