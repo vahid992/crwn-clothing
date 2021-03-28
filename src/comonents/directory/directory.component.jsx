@@ -1,5 +1,4 @@
 import './directory.styles.scss';
-import {Component} from 'react';
 import { connect } from 'react-redux';
 import {selectDirectorySections} from '../../redux/directory/directory.selectors';
 import { createStructuredSelector} from 'reselect';
